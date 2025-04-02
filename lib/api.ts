@@ -45,17 +45,19 @@ export async function submitRegistration(formData: FormData): Promise<unknown> {
 export function prepareFormData(values: FormValues): FormData {
   const formData = new FormData();
 
-  // Add basic registration data
+  // Basic fields
   formData.append("country", values.country);
   formData.append("official_delegation_name", values.official_delegation_name);
   formData.append(
     "total_accompanying_persons",
     values.total_accompanying_persons
   );
+  formData.append("team_leaders_count", values.team_leaders_count); // already done
+  formData.append("contestants_count", values.contestants_count); // ✅ <-- ADD THIS
   formData.append("confirm_information", values.confirm_information.toString());
   formData.append("agree_rules", values.agree_rules.toString());
 
-  // Add team leaders
+  // Team leaders
   values.team_leaders.forEach((leader, index) => {
     formData.append(`team_leaders[${index}][full_name]`, leader.full_name);
     formData.append(`team_leaders[${index}][email]`, leader.email);
@@ -77,7 +79,7 @@ export function prepareFormData(values: FormValues): FormData {
     }
   });
 
-  // Add contestants
+  // Contestants
   values.contestants.forEach((contestant, index) => {
     formData.append(`contestants[${index}][full_name]`, contestant.full_name);
 
