@@ -118,8 +118,6 @@ export default function RegistrationForm() {
             t_shirt_size: "",
             date_of_birth: undefined,
             passport_expiry_date: undefined,
-            passport_scan: new File([""], "placeholder.pdf"), // ✅
-            id_photo: new File([""], "placeholder.jpg"), // ✅
             parental_consent_form: undefined,
           },
         ],
@@ -188,7 +186,11 @@ export default function RegistrationForm() {
         </CardHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-0"
+            encType="multipart/form-data"
+          >
             <CardContent className="p-0">
               <GeneralInformationSection form={form} countries={countries} />
               <TeamLeadersSection

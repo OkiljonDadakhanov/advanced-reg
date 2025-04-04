@@ -1,38 +1,40 @@
 import type { FormValues } from "./form-schema";
-import axios from "axios";
 
 export interface Country {
   id: number;
   name: string;
 }
 
-// Fetch countries from the API
+// ✅ Fetch countries from the API
 export async function fetchCountries(): Promise<Country[]> {
   try {
-    const { data } = await axios.get(
-      "https://api.olympcenter.uz/api/countries"
-    );
-    return data;
-  } catch (error) {
-    console.error("Error fetching countries:", error);
+    const res = await fetch("https://api.olympcenter.uz/api/countries");
+    if (!res.ok) throw new Error("Failed to fetch countries");
+    return await res.json();
+  } catch (err) {
+    console.error("fetchCountries error:", err);
     return [];
   }
 }
-// Submit registration form
+
+// ✅ Submit registration form
 export async function submitRegistration(formData: FormData): Promise<unknown> {
   try {
     const response = await fetch(
       "https://api.olympcenter.uz/api/detailed-registrations/",
       {
         method: "POST",
-       
         body: formData,
       }
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(JSON.stringify(errorData));
+      const contentType = response.headers.get("Content-Type");
+      const errorText = contentType?.includes("application/json")
+        ? JSON.stringify(await response.json())
+        : await response.text();
+
+      throw new Error(`Server error ${response.status}: ${errorText}`);
     }
 
     return await response.json();
@@ -42,7 +44,7 @@ export async function submitRegistration(formData: FormData): Promise<unknown> {
   }
 }
 
-// Helper function to prepare form data for API submission
+// ✅ Prepare FormData from FormValues
 export function prepareFormData(values: FormValues): FormData {
   const formData = new FormData();
 
@@ -53,8 +55,8 @@ export function prepareFormData(values: FormValues): FormData {
     "total_accompanying_persons",
     values.total_accompanying_persons
   );
-  formData.append("team_leaders_count", values.team_leaders_count); // already done
-  formData.append("contestants_count", values.contestants_count); // ✅ <-- ADD THIS
+  formData.append("team_leaders_count", values.team_leaders_count);
+  formData.append("contestants_count", values.contestants_count);
   formData.append("confirm_information", values.confirm_information.toString());
   formData.append("agree_rules", values.agree_rules.toString());
 
@@ -83,14 +85,12 @@ export function prepareFormData(values: FormValues): FormData {
   // Contestants
   values.contestants.forEach((contestant, index) => {
     formData.append(`contestants[${index}][full_name]`, contestant.full_name);
-
     if (contestant.date_of_birth) {
       formData.append(
         `contestants[${index}][date_of_birth]`,
         contestant.date_of_birth.toISOString().split("T")[0]
       );
     }
-
     formData.append(`contestants[${index}][gender]`, contestant.gender);
     formData.append(
       `contestants[${index}][competition_subject]`,
