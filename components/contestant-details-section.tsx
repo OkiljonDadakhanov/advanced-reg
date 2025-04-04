@@ -6,13 +6,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon, Upload, Download } from "lucide-react"
-import { format } from "date-fns"
 import { SectionContainer } from "@/components/section-container"
 import { Card, CardContent } from "@/components/ui/card"
 import type { FormValues } from "@/lib/form-schema"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface ContestantDetailsSectionProps {
   form: UseFormReturn<FormValues>
@@ -148,28 +147,26 @@ export function ContestantDetailsSection({
                     )}
                   />
 
-                  <FormField
+<FormField
                     control={form.control}
                     name={`contestants.${index}.date_of_birth`}
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="text-slate-700 font-medium">Date of Birth</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left font-normal bg-white border-slate-300 h-11"
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4 text-slate-500" />
-                                {field.value ? format(field.value, "PPP") : "Select date"}
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-full max-w-xs sm:max-w-sm p-0 bg-white border border-slate-300 shadow-md rounded-md">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
+                        <FormLabel className="text-slate-700 font-medium">
+                          Date of Birth
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <DatePicker
+                              selected={field.value}
+                              onChange={field.onChange}
+                              dateFormat="PPP"
+                              placeholderText="Select date"
+                              className="w-full p-2 pr-10 text-left font-normal bg-white border border-slate-300 rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <CalendarIcon className="absolute top-3 right-3 h-4 w-4 text-slate-500" />
+                          </div>
+                        </FormControl>
                         <FormMessage className="text-red-500" />
                       </FormItem>
                     )}
@@ -237,28 +234,26 @@ export function ContestantDetailsSection({
                     )}
                   />
 
-                  <FormField
+<FormField
                     control={form.control}
                     name={`contestants.${index}.passport_expiry_date`}
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="text-slate-700 font-medium">Passport Expiry Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left font-normal bg-white border-slate-300 h-11"
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4 text-slate-500" />
-                                {field.value ? format(field.value, "PPP") : "Select date"}
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-full max-w-xs sm:max-w-sm p-0 bg-white border border-slate-300 shadow-md rounded-md">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
+                        <FormLabel className="text-slate-700 font-medium">
+                          Passport Expiry Date
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <DatePicker
+                              selected={field.value}
+                              onChange={field.onChange}
+                              dateFormat="PPP"
+                              placeholderText="Select date"
+                              className="w-full p-2 pr-10 text-left font-normal bg-white border border-slate-300 rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <CalendarIcon className="absolute top-3 right-3 h-4 w-4 text-slate-500" />
+                          </div>
+                        </FormControl>
                         <FormMessage className="text-red-500" />
                       </FormItem>
                     )}
