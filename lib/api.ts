@@ -25,6 +25,7 @@ export async function submitRegistration(formData: FormData): Promise<unknown> {
       "https://api.olympcenter.uz/api/detailed-registrations/",
       {
         method: "POST",
+       
         body: formData,
       }
     );
