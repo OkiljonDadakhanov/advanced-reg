@@ -88,7 +88,7 @@ export function ContestantDetailsSection({
                   field.onChange(value);
                   setContestantsCountAction(value);
                 }}
-                value={field.value}
+                value={field.value ?? ""}
               >
                 <FormControl>
                   <SelectTrigger className="bg-white border-slate-300 h-11">
@@ -171,7 +171,9 @@ export function ContestantDetailsSection({
                           <Input
                             placeholder="Enter full name"
                             className="bg-white border-slate-300 h-11"
-                            {...field}
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
                           />
                         </FormControl>
                         <FormMessage className="text-red-500" />
@@ -213,7 +215,7 @@ export function ContestantDetailsSection({
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value ?? ""}
                         >
                           <FormControl>
                             <SelectTrigger className="bg-white border-slate-300 h-11">
@@ -239,7 +241,7 @@ export function ContestantDetailsSection({
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value ?? ""}
                         >
                           <FormControl>
                             <SelectTrigger className="bg-white border-slate-300 h-11">
@@ -271,7 +273,9 @@ export function ContestantDetailsSection({
                           <Input
                             placeholder="Enter passport number"
                             className="bg-white border-slate-300 h-11"
-                            {...field}
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
                           />
                         </FormControl>
                         <FormMessage className="text-red-500" />
@@ -313,7 +317,7 @@ export function ContestantDetailsSection({
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value ?? ""}
                         >
                           <FormControl>
                             <SelectTrigger className="bg-white border-slate-300 h-11">
