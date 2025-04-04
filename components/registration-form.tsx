@@ -1,34 +1,37 @@
-"use client"
-import { useState, useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Form } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2 } from "lucide-react"
-import { GeneralInformationSection } from "@/components/general-information-section"
-import { TeamLeadersSection } from "@/components/team-leaders-section"
-import { ContestantDetailsSection } from "@/components/contestant-details-section"
-import { SubmissionSection } from "@/components/submission-section"
-import { formSchema, type FormValues } from "@/lib/form-schema"
-import { fetchCountries, type Country, submitRegistration, prepareFormData } from "@/lib/api"
-import Image from 'next/image'
-
+"use client";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { GeneralInformationSection } from "@/components/general-information-section";
+import { TeamLeadersSection } from "@/components/team-leaders-section";
+import { ContestantDetailsSection } from "@/components/contestant-details-section";
+import { SubmissionSection } from "@/components/submission-section";
+import { formSchema, type FormValues } from "@/lib/form-schema";
+import {
+  fetchCountries,
+  type Country,
+  submitRegistration,
+  prepareFormData,
+} from "@/lib/api";
+import Image from "next/image";
 
 export default function RegistrationForm() {
-  const [countries, setCountries] = useState<Country[]>([])
-  const [contestantsCount, setContestantsCountAction] = useState<string>("1")
-  const [teamLeadersCount, setTeamLeadersCountAction] = useState<string>("1")
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
-  const [isHydrated, setIsHydrated] = useState(false)
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [contestantsCount, setContestantsCountAction] = useState<string>("1");
+  const [teamLeadersCount, setTeamLeadersCountAction] = useState<string>("1");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setIsHydrated(true)
-  }, [])
-
+    setIsHydrated(true);
+  }, []);
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -59,37 +62,37 @@ export default function RegistrationForm() {
       confirm_information: false,
       agree_rules: false,
     },
-  })
+  });
 
   // Fetch countries on component mount
   useEffect(() => {
     async function loadCountries() {
       try {
-        const data = await fetchCountries()
-        setCountries(data)
+        const data = await fetchCountries();
+        setCountries(data);
       } catch (error) {
-        console.error("Failed to load countries:", error)
-        setError("Failed to load countries. Please refresh the page.")
+        console.error("Failed to load countries:", error);
+        setError("Failed to load countries. Please refresh the page.");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
 
-    loadCountries()
-  }, [])
+    loadCountries();
+  }, []);
 
   // Handle form submission
   async function onSubmit(values: FormValues) {
-    setIsSubmitting(true)
-    setError(null)
-    setSuccess(null)
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
 
     try {
-      const formData = prepareFormData(values)
-      const response = await submitRegistration(formData)
+      const formData = prepareFormData(values);
+      const response = await submitRegistration(formData);
 
-      setSuccess("Registration submitted successfully!")
-      console.log("Form submitted with response:", response)
+      setSuccess("Registration submitted successfully!");
+      console.log("Form submitted with response:", response);
 
       form.reset({
         country: "",
@@ -115,22 +118,25 @@ export default function RegistrationForm() {
             t_shirt_size: "",
             date_of_birth: undefined,
             passport_expiry_date: undefined,
-            passport_scan: undefined,
-            id_photo: undefined,
+            passport_scan: new File([""], "placeholder.pdf"), // ✅
+            id_photo: new File([""], "placeholder.jpg"), // ✅
             parental_consent_form: undefined,
           },
         ],
+
         confirm_information: false,
         agree_rules: false,
-      })
+      });
 
-      setTeamLeadersCountAction("1")
-      setContestantsCountAction("1")
+      setTeamLeadersCountAction("1");
+      setContestantsCountAction("1");
     } catch (error) {
-      console.error("Error submitting form:", error)
-      setError(error instanceof Error ? error.message : "Failed to submit registration")
+      console.error("Error submitting form:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to submit registration"
+      );
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -140,25 +146,45 @@ export default function RegistrationForm() {
         <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
         <span className="ml-2 text-lg">Loading...</span>
       </div>
-    )
+    );
   }
 
   return (
     <div className="container mx-auto py-10 px-4 max-w-4xl">
-      {error && <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">{error}</div>}
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
+          {error}
+        </div>
+      )}
 
       {success && (
-        <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">{success}</div>
+        <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
+          {success}
+        </div>
       )}
 
       <Card className="border-slate-200 shadow-md overflow-hidden">
         <CardHeader className="text-center bg-slate-50 border-b border-slate-100 py-8">
           <div className="flex justify-center items-center gap-6 mb-4">
-            <Image src="/logo/olympic.png" alt="Logo 1" width={150} height={150} />
-            <Image src="/logo/khorazmi.png" alt="Logo 2" width={150} height={150} />
+            <Image
+              src="/logo/olympic.png"
+              alt="Logo 1"
+              width={150}
+              height={150}
+            />
+            <Image
+              src="/logo/khorazmi.png"
+              alt="Logo 2"
+              width={150}
+              height={150}
+            />
           </div>
-          <CardTitle className="text-3xl font-bold text-slate-800">Official Registration Form</CardTitle>
-          <p className="text-slate-500 mt-2">Please complete all required fields accurately</p>
+          <CardTitle className="text-3xl font-bold text-slate-800">
+            Official Registration Form
+          </CardTitle>
+          <p className="text-slate-500 mt-2">
+            Please complete all required fields accurately
+          </p>
         </CardHeader>
 
         <Form {...form}>
@@ -212,6 +238,5 @@ export default function RegistrationForm() {
         </Form>
       </Card>
     </div>
-  )
+  );
 }
-
