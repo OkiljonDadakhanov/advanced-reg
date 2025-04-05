@@ -191,12 +191,16 @@ export function ContestantDetailsSection({
                         <FormControl>
                           <div className="relative">
                             <DatePicker
-                              selected={field.value ?? null} // Ensure it never starts as undefined
+                              selected={field.value ?? null}
                               onChange={(date) => field.onChange(date)}
                               dateFormat="PPP"
                               placeholderText="Select date"
+                              showYearDropdown // ✅ Enables year dropdown
+                              scrollableYearDropdown // ✅ Makes year dropdown scrollable (optional)
+                              yearDropdownItemNumber={100} // ✅ Shows 100 years in the dropdown (customizable)
                               className="w-full p-2 pr-10 text-left font-normal bg-white border border-slate-300 rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
+
                             <CalendarIcon className="absolute top-3 right-3 h-4 w-4 text-slate-500" />
                           </div>
                         </FormControl>
@@ -204,7 +208,6 @@ export function ContestantDetailsSection({
                       </FormItem>
                     )}
                   />
-                  ;
                   <FormField
                     control={form.control}
                     name={`contestants.${index}.gender`}
@@ -293,10 +296,13 @@ export function ContestantDetailsSection({
                         <FormControl>
                           <div className="relative">
                             <DatePicker
-                              selected={field.value ?? null} // Ensures controlled behavior
+                              selected={field.value ?? null}
                               onChange={(date) => field.onChange(date)}
                               dateFormat="PPP"
                               placeholderText="Select date"
+                              showYearDropdown // ✅ Enables year dropdown
+                              scrollableYearDropdown // ✅ Makes year dropdown scrollable (optional)
+                              yearDropdownItemNumber={100} // ✅ Shows 100 years in the dropdown (customizable)
                               className="w-full p-2 pr-10 text-left font-normal bg-white border border-slate-300 rounded-md h-11 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                             <CalendarIcon className="absolute top-3 right-3 h-4 w-4 text-slate-500" />
