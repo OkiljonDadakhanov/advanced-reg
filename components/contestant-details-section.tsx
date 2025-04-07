@@ -312,7 +312,7 @@ export function ContestantDetailsSection({
                       </FormItem>
                     )}
                   />
-                  ;
+                  
                   <FormField
                     control={form.control}
                     name={`contestants.${index}.t_shirt_size`}
