@@ -19,15 +19,14 @@ export const contestantSchema = z.object({
   full_name: z.string().min(1, "Contestant name is required"),
   date_of_birth: z
     .date({ required_error: "Date of birth is required" })
-    .optional(),
+    ,
   gender: z.string().min(1, "Gender is required"),
   competition_subject: z.string().min(1, "Competition subject is required"),
   passport_number: z.string().min(1, "Passport number is required"),
   passport_expiry_date: z
     .date({
       required_error: "Passport expiry date is required",
-    })
-    .optional(),
+    }),
   t_shirt_size: z.string().min(1, "T-shirt size is required"),
   special_requirements: z.string().optional(),
   passport_scan: z.any().refine((file) => file instanceof File, {
