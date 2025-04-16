@@ -50,11 +50,13 @@ export function ContestantDetailsSection({
           full_name: "",
           gender: "",
           competition_subject: "",
-          passport_number: "",
+          passport_number: " ",
           special_requirements: "",
           t_shirt_size: "",
           passport_scan: new File([""], "placeholder.pdf"), // Provide an empty File instance
           id_photo: new File([""], "placeholder.jpg"),
+          date_of_birth: new Date(),
+          passport_expiry_date: new Date()
         });
       }
       form.setValue("contestants", newContestants);
